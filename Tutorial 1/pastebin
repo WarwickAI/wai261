@@ -1,0 +1,39 @@
+[Create React Project]
+npx create-react-app wai261 --template typescript
+
+
+[Install ChakraUI]
+npm install @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^5
+
+
+[Replacement code for App.tsx after installing ChakraUI]
+import * as React from 'react'
+
+// 1. import `ChakraProvider` component
+import { ChakraProvider, Heading } from '@chakra-ui/react'
+
+function App() {
+  // 2. Use at the root of your app
+  return (
+    <ChakraProvider>
+      <Heading>ChakraUI Heading</Heading>
+    </ChakraProvider>
+  )
+}
+export default App;
+
+
+[Custom component code (make sure to put your own components in)]
+import { Box, Text } from "@chakra-ui/react";
+
+function Message() {
+return (
+   	… your message bubble components
+  );
+}
+
+export default Message;
+
+
+[Git adding remote origin (replace fields with your own)]
+git remote add origin https://github.com/<GitHub-username>/<repo-name>.git
