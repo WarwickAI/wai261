@@ -1,0 +1,180 @@
+# Setting up contents property for custom Message component
+
+interface MessageProps {
+  contents: string;
+}
+
+// This function is our custom Message component
+const Message: React.FC<MessageProps> = (props) => {
+  return (
+    ...
+  );
+}
+
+
+# Declaring text input field state
+
+const [msg, setMsg] = useState<string>("");
+
+
+# Input field using message input state
+
+<Input
+    placeholder="Enter Message..."
+    value={msg}
+    onChange={(e) => setMsg(e.target.value)}
+/>
+
+
+# Testing message state by printing to console
+
+<Button
+  backgroundColor="blue"
+  color="white"
+  ml={2}
+  onClick={() => console.log(msg)}
+>
+  Send
+</Button>
+
+
+# Message object interface
+
+interface MessageObject {
+  contents: string;
+  user: string;
+  time: Date
+}
+
+
+# Delcaring messages state
+
+const [messages, setMessages] = useState<MessageObject[]>([]);
+
+
+# Adding messages to message state
+
+<Button
+  backgroundColor="blue"
+  color="white"
+  ml={2}
+  onClick={() => {
+    let newMessage: MessageObject = {
+      contents: msg,
+      user: "me",
+      time: new Date(),
+    };
+    setMessages([...messages, newMessage]);
+  }}
+>
+  Send
+</Button>
+
+
+# Rendering message components from message array
+
+{messages.map((message) => (
+  <Message
+key={message.time.toISOString()}
+    contents={message.contents}
+    user={message.user}
+    time={message.time}
+  />
+))}
+
+
+# API Variables
+
+const API_URL = "<yourModelURL>";
+
+var HEADERS = new Headers();
+HEADERS.append("Authorization", "Bearer <yourAPIKey>");
+
+
+# API config and sending request
+
+const requestInit: RequestInit = {
+  method: "POST",
+  headers: HEADERS,
+  body: JSON.stringify({ inputs: msg }),
+};
+const response = await fetch(API_URL, requestInit);
+const json = await response.json();
+console.log(json);
+
+
+# Complete send button component code
+
+<Button
+  backgroundColor="blue"
+  color="white"
+  ml={2}
+  onClick={async () => {
+    const newMessage: MessageObject = {
+      contents: msg,
+      user: "me",
+      time: new Date(),
+    };
+
+    const requestInit: RequestInit = {
+      method: "POST",
+      headers: HEADERS,
+      body: JSON.stringify({ inputs: msg }),
+    };
+    const response = await fetch(API_URL, requestInit);
+    const json = await response.json();
+
+    const sortedLabels = json[0].sort(
+      (val1: any, val2: any) => val2.score - val1.score
+    );
+    const aiMessage: MessageObject = {
+      contents: "Message was " + sortedLabels[0].label,
+      user: "ai",
+      time: new Date(),
+    };
+    setMessages([...messages, newMessage, aiMessage]);
+  }}
+>
+  Send
+</Button>
+
+
+# Complete handle messages function
+
+const handleMessages = async () => {
+    const newMessage: MessageObject = {
+      contents: msg,
+      user: "me",
+      time: new Date(),
+    };
+
+    const requestInit: RequestInit = {
+      method: "POST",
+      headers: HEADERS,
+      body: JSON.stringify({ inputs: msg }),
+    };
+    const response = await fetch(API_URL, requestInit);
+    const json = await response.json();
+
+    const sortedLabels = json[0].sort(
+      (val1: any, val2: any) => val2.score - val1.score
+    );
+    const aiMessage: MessageObject = {
+      contents: "Message was " + sortedLabels[0].label,
+      user: "ai",
+      time: new Date(),
+    };
+    setMessages([...messages, newMessage, aiMessage]);
+  };
+  
+  
+  # Complete send button component code using refactored function
+  
+  <Button
+    backgroundColor="blue"
+    color="white"
+    ml={2}
+    onClick={handleMessages}
+  >
+    Send
+  </Button>
