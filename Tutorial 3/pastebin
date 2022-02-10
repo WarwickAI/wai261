@@ -1,0 +1,154 @@
+# Tutorial for setting up Express and TypeScript
+
+https://levelup.gitconnected.com/how-to-properly-set-up-express-with-typescript-1b52570677c9
+
+
+# Install command for Express and TypeScript
+
+npm install express && npm install --save-dev typescript nodemon @types/node @types/express
+
+
+# Replacement code for some of the package.json in the server directory
+
+"main": "dist/index.js",
+"scripts": {
+  "build": "tsc",
+  "start": "tsc & node .",
+  "dev": "tsc -w & nodemon ."
+},
+
+
+# tsconfig.json code in the server directory
+
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
+
+
+# Initial index.ts (in server directory) code
+
+import express from 'express'
+const app = express()
+const port = 5000
+
+app.get('/', (_, res) => {
+  res.status(200).send("Hello WAI261")
+})
+app.listen(port, () => console.log(`Running on port ${port}`))
+
+
+# Message object type
+
+interface MessageObject {
+    contents: string;
+    user: string;
+    time: Date;
+}
+
+
+# Messages endpoint
+
+app.get('/messages', (_, res) => {
+    res.status(200).send(messages);
+})
+  
+
+# useEffect code for getting the messages
+
+useEffect(() => {
+    axios.get("http://localhost:5000/messages").then((res) => {
+        console.log(res);
+    });
+}, []);
+
+
+# Updating the messages state using data from axios request
+
+setMessages(
+    res.data.map((message: any) => {
+        return {
+            contents: message.contents,
+            user: message.user,
+            time: new Date(message.time),
+        };
+    })
+);
+
+
+# Basic create message endpoint
+
+app.post("/addMessage", (req, res) => {
+    console.log(req);
+})
+  
+
+# handleMessage function in web replacement 
+
+const handleMessages = async () => {
+    axios.post("http://localhost:5000/addMessage", {
+        contents: msg,
+        user: "me",
+        time: new Date(),
+    });
+};
+
+
+# Use body-parser middleware
+
+app.use(bodyParser.json())
+
+
+# Querying Hugging Face in server
+
+axios.post(
+    "<yourModelURL",
+    { inputs: req.body.contents },
+    {
+        headers: {
+          Authorization: "Bearer <yourToken>",
+        },
+    }
+)
+.then((response) => {
+    try {
+        const labels = response.data[0];
+    } catch (e) {
+        console.log(e);
+    }
+});
+
+
+# Creating message refresh interval
+
+useEffect(() => {
+    const messagesRefreshInterval = setInterval(() => {
+        // Code to get messages from server using axios...
+    }, 500);
+}, []);
+
+
+# Creating and removing message refresh interval 
+
+useEffect(() => {
+    const messagesRefreshInterval = setInterval(() => {
+        // Code to get messages from server using axios...
+    }, 500);
+    return () => {
+        clearInterval(messagesRefreshInterval);
+    };
+}, []);
+
+
