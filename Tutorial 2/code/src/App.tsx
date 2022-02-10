@@ -18,7 +18,7 @@ import Message from "./Message";
 const API_URL =
   "https://api-inference.huggingface.co/models/j-hartmann/emotion-english-distilroberta-base";
 const HEADERS = new Headers();
-HEADERS.append("Authorization", "Bearer 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");
+HEADERS.append("Authorization", "Bearer <yourAccessToken>");
 
 // Type for each message
 interface MessageObject {
