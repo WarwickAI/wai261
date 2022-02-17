@@ -1,0 +1,35 @@
+# Heroku CLI install
+
+https://devcenter.heroku.com/articles/heroku-cli
+
+
+# Heroku setup NodeJS server
+
+https://devcenter.heroku.com/articles/deploying-nodejs
+
+
+# Addition to server package.json
+
+"engines": {
+    "node": "<yourNodeVersion>"
+}
+
+
+# Replace start script on server package.json
+
+"start": "node .",
+
+
+# Replace variable port in server index.ts with:
+
+process.env.PORT || port
+
+
+# Web env file 
+
+REACT_APP_SERVER_URL=localhost:5000
+
+
+# Replace hard-coded server URL uses in web with:
+
+process.env.REACT_APP_SERVER_URL
